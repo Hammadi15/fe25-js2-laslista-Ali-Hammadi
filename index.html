@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,9 +8,18 @@
     <title>Document</title>
   </head>
   <body>
-    <div>
-    <ul id="bookList"></ul>
-    </div>
+    <form id="bookForm">
+      <input type="text" name="title" placeholder="Book Title"  />
+      <input type="text" name="author" placeholder="Author" required />
+      <label>
+        <input type="checkbox" name="favorite" />
+        Favorite
+      </label>
 
+      <button type="submit">Add Book</button>
+    </form>
+    <div>
+      <ul id="bookList"></ul>
+    </div>
   </body>
 </html>

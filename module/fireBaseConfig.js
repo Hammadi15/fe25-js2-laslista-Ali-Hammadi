@@ -1,13 +1,52 @@
-const baseUrl = "https://readinglist-33bdf-default-rtdb.europe-west1.firebasedatabase.app/books"
+const baseUrl =
+  "https://readinglist-33bdf-default-rtdb.europe-west1.firebasedatabase.app/books";
 
+export const getBooks = async () => {
+  const url = baseUrl + ".json";
+  console.log(url);
 
-export const getBooks = async()=>{
-    const url = baseUrl + ".json"
-    console.log(url)
+  const response = await fetch(url);
+  const data = await response.json();
 
-    const response = await fetch(url)
-    const data = await response.json()
+  return data;
+};
 
-    return data
+export const postBooks = async (book) => {
+  const newBook = {
+    title: book.title,
+    author: book.author,
+    favorite: book.favorite,
+  };
 
-}
+  const option = {
+    method: "POST",
+    body: JSON.stringify(newBook),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+  };
+
+  const response = await fetch(baseUrl + ".json", option);
+  if (!response.ok) throw new Error(response.status);
+  const newID = await response.json();
+
+  return {
+    id: newID.name,
+    // ...newBook, // I am copying all the properties from the newBook object into a new object
+
+      id: newID.name,
+  title: newBook.title,
+  author: newBook.author,
+  favorite: newBook.favorite
+  };
+};
+
+export const deleteBook = async (id) => {
+  const response = await fetch(`${baseUrl}/${id}.json`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+};
