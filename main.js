@@ -36,8 +36,8 @@ function renderBook(book) {
 // LOAD BOOKS (GET)
 getBooks().then((data) => {
   if (!data) return;
-//   console.log(data);
-//   console.log(Object.entries(data));
+  console.log(data);
+  console.log(Object.entries(data));
 
   const list = document.getElementById("bookList");
 
