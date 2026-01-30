@@ -1,4 +1,4 @@
-import { getBooks, postBooks, deleteBook  } from "./module/fireBaseConfig.js";
+import { getBooks, postBooks, deleteBook, updateFavorite } from "./module/fireBaseConfig.js";
 
 class Book {
   constructor(id, title, author, favorite) {
@@ -9,17 +9,41 @@ class Book {
   }
 }
 
+function getTargetList(book) {
+  if (book.favorite) {
+    return document.getElementById("favoriteList");
+  } else {
+    return document.getElementById("bookList");
+  }
+}
 // Normal Render Function
 function renderBook(book) {
   const li = document.createElement("li");
   li.textContent = `${book.title} by ${book.author}`;
 
+  const favBtn = document.createElement("button");
   if (book.favorite) {
-    li.style.fontWeight = "bold";
+    favBtn.textContent = "Unfavorite";
+  } else {
+    favBtn.textContent = "Favorite";
   }
 
 
-    const deleteBtn = document.createElement("button");
+  favBtn.addEventListener("click", async()=>{
+        book.favorite = !book.favorite;
+
+        
+    if (book.favorite) {
+      favBtn.textContent = "Unfavorite";
+    } else {
+      favBtn.textContent = "Favorite";
+    }
+
+    await updateFavorite(book.id, book.favorite);
+    getTargetList(book).appendChild(li);
+  })
+
+  const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "Delete";
 
   deleteBtn.addEventListener("click", async () => {
@@ -27,10 +51,12 @@ function renderBook(book) {
     li.remove();
   });
 
-    li.appendChild(deleteBtn);
+  li.append(favBtn,deleteBtn);
 
+  // return li;
 
-  return li;
+    getTargetList(book).appendChild(li);
+
 }
 
 // LOAD BOOKS (GET)
@@ -49,7 +75,7 @@ getBooks().then((data) => {
       bookData.favorite,
     );
 
-    list.appendChild(renderBook(book));
+renderBook(book);
   }
 });
 
@@ -65,7 +91,7 @@ form.addEventListener("submit", async (event) => {
     favorite: form.favorite.checked,
   };
 
-  const savedBook = await postBooks(bookFromForm);
+  const savedBook = await gipostBooks(bookFromForm);
 
   const book = new Book(
     savedBook.id,
@@ -74,7 +100,5 @@ form.addEventListener("submit", async (event) => {
     savedBook.favorite,
   );
 
-  document.getElementById("bookList").appendChild(renderBook(book));
-
- 
+renderBook(book);
 });

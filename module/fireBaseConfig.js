@@ -50,3 +50,12 @@ export const deleteBook = async (id) => {
     throw new Error(response.status);
   }
 };
+export const updateFavorite = async (id, favorite) => {
+  await fetch(`${baseUrl}/${id}.json`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ favorite })
+  });
+};
