@@ -8,23 +8,38 @@
     <title>Document</title>
   </head>
   <body>
-    <form id="bookForm">
-      <input type="text" name="title" placeholder="Book Title"  />
-      <input type="text" name="author" placeholder="Author" required />
-      <label>
-        <input type="checkbox" name="favorite" />
-        Favorite
-      </label>
+  <form id="bookForm">
+    <input name="title" placeholder="Book title" required />
+    <input name="author" placeholder="Author" required />
+    <label>
+      <input type="checkbox" name="favorite" />
+      Favorite
+    </label>
+    <button>Add book</button>
+  </form>
 
-      <button type="submit">Add Book</button>
-    </form>
-    <div>
-      <ul id="bookList"></ul>
-    </div>
+  <hr />
+
+  <div>
+    <button id="showAll">Alla</button>
+    <button id="showFav">Endast favoriter</button>
+  </div>
+
+  <div>
+    <button id="titleAZ">Titel A–Ö</button>
+    <button id="titleZA">Titel Ö–A</button>
+    <button id="authorAZ">Författare A–Ö</button>
+    <button id="authorZA">Författare Ö–A</button>
+    <button id="addedFirst">Först tillagd</button>
+    <button id="addedLast">Sist tillagd</button>
+  </div>
+
+  <ul id="bookList"></ul>
 
     <div>
   <h2>Favorites</h2>
   <ul id="favoriteList"></ul>
 </div>
-  </body>
+</body>
+
 </html>
