@@ -2,13 +2,8 @@ const baseUrl =
   "https://readinglist-33bdf-default-rtdb.europe-west1.firebasedatabase.app/books";
 
 export const getBooks = async () => {
-  const url = baseUrl + ".json";
-  console.log(url);
-
-  const response = await fetch(url);
-  const data = await response.json();
-
-  return data;
+  const response = await fetch(baseUrl + ".json");
+  return await response.json();
 };
 
 export const postBooks = async (book) => {
@@ -18,7 +13,7 @@ export const postBooks = async (book) => {
     favorite: book.favorite,
   };
 
-  const option = {
+  const options = {
     method: "POST",
     body: JSON.stringify(newBook),
     headers: {
@@ -26,16 +21,14 @@ export const postBooks = async (book) => {
     },
   };
 
-  const response = await fetch(baseUrl + ".json", option);
+  const response = await fetch(baseUrl + ".json", options);
   if (!response.ok) throw new Error(response.status);
-  const newID = await response.json();
 
-  return {    // ...newBook, // I am copying all the properties from the newBook object into a new object
+  const data = await response.json();
 
-      id: newID.name,
-  title: newBook.title,
-  author: newBook.author,
-  favorite: newBook.favorite
+  return {
+    id: data.name,
+    ...newBook
   };
 };
 
@@ -44,9 +37,7 @@ export const deleteBook = async (id) => {
     method: "DELETE",
   });
 
-  if (!response.ok) {
-    throw new Error(response.status);
-  }
+  if (!response.ok) throw new Error(response.status);
 };
 
 export const updateFavorite = async (id, favorite) => {
@@ -58,7 +49,5 @@ export const updateFavorite = async (id, favorite) => {
     },
   });
 
-  if (!response.ok) {
-    throw new Error(response.status);
-  }
+  if (!response.ok) throw new Error(response.status);
 };

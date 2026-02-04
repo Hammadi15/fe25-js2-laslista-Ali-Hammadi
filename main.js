@@ -14,12 +14,10 @@ class Book {
     this.author = author;
     this.favorite = favorite;
   }
-  getId(){
+
+  getId() {
     return this.#id;
   }
-  // setFavorite(newFav){
-  //   if(typeof newFav == 'boolean') 
-  // }
 }
 
 let books = []; // alla böcker
@@ -34,13 +32,14 @@ function renderBook(book) {
   if (book.favorite) {
     li.style.fontWeight = "bold";
   }
+
   const favBtn = document.createElement("button");
   favBtn.textContent = book.favorite ? "Unfavorite" : "Favorite";
 
   favBtn.addEventListener("click", async () => {
     book.favorite = !book.favorite;
 
-    await updateFavorite(book.id, book.favorite);
+    await updateFavorite(book.getId(), book.favorite);
 
     favBtn.textContent = book.favorite ? "Unfavorite" : "Favorite";
     li.style.fontWeight = book.favorite ? "bold" : "normal";
@@ -50,11 +49,11 @@ function renderBook(book) {
   deleteBtn.textContent = "Delete";
 
   deleteBtn.addEventListener("click", async () => {
-    await deleteBook(book.id);
+    await deleteBook(book.getId());
     li.remove();
   });
 
-  li.append(favBtn, deleteBtn );
+  li.append(favBtn, deleteBtn);
 
   return li;
 }
@@ -87,7 +86,6 @@ function renderList() {
     case "added-desc":
       visibleBooks.reverse();
       break;
-  
   }
 
   visibleBooks.forEach((book) => {
@@ -105,6 +103,8 @@ getBooks().then((data) => {
 
   renderList();
 });
+
+// add book (POST)
 document.getElementById("bookForm").onsubmit = async (event) => {
   event.preventDefault();
 
