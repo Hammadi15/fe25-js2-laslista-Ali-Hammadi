@@ -30,9 +30,7 @@ export const postBooks = async (book) => {
   if (!response.ok) throw new Error(response.status);
   const newID = await response.json();
 
-  return {
-    id: newID.name,
-    // ...newBook, // I am copying all the properties from the newBook object into a new object
+  return {    // ...newBook, // I am copying all the properties from the newBook object into a new object
 
       id: newID.name,
   title: newBook.title,
@@ -44,6 +42,20 @@ export const postBooks = async (book) => {
 export const deleteBook = async (id) => {
   const response = await fetch(`${baseUrl}/${id}.json`, {
     method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status);
+  }
+};
+
+export const updateFavorite = async (id, favorite) => {
+  const response = await fetch(`${baseUrl}/${id}.json`, {
+    method: "PATCH",
+    body: JSON.stringify({ favorite }),
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
   });
 
   if (!response.ok) {
