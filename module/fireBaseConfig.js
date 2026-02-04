@@ -48,16 +48,6 @@ export const deleteBook = async (id) => {
     throw new Error(response.status);
   }
 };
-<<<<<<< HEAD
-export const updateFavorite = async (id, favorite) => {
-  await fetch(`${baseUrl}/${id}.json`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ favorite })
-  });
-=======
 
 export const updateFavorite = async (id, favorite) => {
   const response = await fetch(`${baseUrl}/${id}.json`, {
@@ -71,5 +61,4 @@ export const updateFavorite = async (id, favorite) => {
   if (!response.ok) {
     throw new Error(response.status);
   }
->>>>>>> alisafe
 };
