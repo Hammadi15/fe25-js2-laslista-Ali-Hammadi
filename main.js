@@ -24,6 +24,40 @@ let books = []; // alla böcker
 let showFavoritesOnly = false;
 let sortMode = "added-asc"; // default
 
+function filterBooks(bookList, showFavoritesOnly) {
+  if (!showFavoritesOnly) {
+    return bookList;
+  }
+
+  return bookList.filter((book) => book.favorite);
+}
+
+function sortBooks(bookList, sortMode) {
+  switch (sortMode) {
+    case "title-asc":
+      return [...bookList].sort((a, b) => a.title.localeCompare(b.title, "sv"));
+
+    case "title-desc":
+      return [...bookList].sort((a, b) => b.title.localeCompare(a.title, "sv"));
+
+    case "author-asc":
+      return [...bookList].sort((a, b) =>
+        a.author.localeCompare(b.author, "sv"),
+      );
+
+    case "author-desc":
+      return [...bookList].sort((a, b) =>
+        b.author.localeCompare(a.author, "sv"),
+      );
+
+    case "added-desc":
+      return [...bookList].reverse();
+
+    default:
+      return bookList;
+  }
+}
+
 // normal render function
 function renderBook(book) {
   const li = document.createElement("li");
@@ -62,33 +96,10 @@ function renderList() {
   const list = document.getElementById("bookList");
   list.innerHTML = "";
 
-  let visibleBooks = [...books];
+  const filtered = filterBooks(books, showFavoritesOnly);
+  const sorted = sortBooks(filtered, sortMode);
 
-  // filter
-  if (showFavoritesOnly) {
-    visibleBooks = visibleBooks.filter((book) => book.favorite);
-  }
-
-  // sort
-  switch (sortMode) {
-    case "title-asc":
-      visibleBooks.sort((a, b) => a.title.localeCompare(b.title, "sv"));
-      break;
-    case "title-desc":
-      visibleBooks.sort((a, b) => b.title.localeCompare(a.title, "sv"));
-      break;
-    case "author-asc":
-      visibleBooks.sort((a, b) => a.author.localeCompare(b.author, "sv"));
-      break;
-    case "author-desc":
-      visibleBooks.sort((a, b) => b.author.localeCompare(a.author, "sv"));
-      break;
-    case "added-desc":
-      visibleBooks.reverse();
-      break;
-  }
-
-  visibleBooks.forEach((book) => {
+  sorted.forEach((book) => {
     list.appendChild(renderBook(book));
   });
 }
