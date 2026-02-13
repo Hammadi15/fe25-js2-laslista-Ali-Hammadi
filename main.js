@@ -26,7 +26,7 @@ let sortMode = "added-asc"; // default
 
 function filterBooks(bookList, showFavoritesOnly) {
   if (!showFavoritesOnly) {
-    return bookList;
+    return [...bookList];
   }
 
   return bookList.filter((book) => book.favorite);
